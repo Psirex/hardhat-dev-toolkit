@@ -30,9 +30,8 @@ const TASKS = {
 (0, config_1.task)(TASKS.ADD, "Add a new account by entering a private key")
     .addPositionalParam("name", "Name of the new account")
     .setAction(async ({ name }, hre) => {
-    const existedKeystore = await hre.keystore.get(name);
-    if (existedKeystore) {
-        console.log(`Account ${existedKeystore.format()} already exists`);
+    if (await hre.keystore.has(name)) {
+        console.log(`Account "${name}" already exists`);
         return;
     }
     const newAccount = await hre.keystore.add(name);
@@ -41,9 +40,8 @@ const TASKS = {
 (0, config_1.task)(TASKS.GENERATE, "Add a new account with a random private key")
     .addPositionalParam("name", "Name of the new account")
     .setAction(async ({ name }, hre) => {
-    const existedKeystore = await hre.keystore.get(name);
-    if (existedKeystore) {
-        console.log(`Account ${existedKeystore.format()} already exists`);
+    if (await hre.keystore.has(name)) {
+        console.log(`Account "${name}" already exists`);
         return;
     }
     const account = await hre.keystore.generate(name);
@@ -52,11 +50,11 @@ const TASKS = {
 (0, config_1.task)(TASKS.DELETE, "Delete an existing account")
     .addPositionalParam("name", "Name of the account to delete")
     .setAction(async ({ name }, hre) => {
-    const keystore = await hre.keystore.get(name);
-    if (!keystore) {
+    if (!(await hre.keystore.has(name))) {
         console.log(`Account with name ${name} not found`);
         return;
     }
+    const keystore = await hre.keystore.get(name);
     const confirmed = await common_1.prompt.confirm(`Are you sure you want to delete ${keystore.format()} account?`);
     if (!confirmed) {
         console.log("Operation was canceled by the user");

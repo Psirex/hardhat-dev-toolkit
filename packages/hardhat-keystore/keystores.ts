@@ -45,7 +45,7 @@ class AccountRemovalFailed extends Error {
 
 class KeystoreNotFoundError extends Error {
   constructor(name: string) {
-    super(`Account ${name} not found`);
+    super(`Account "${name}" not found`);
   }
 }
 
