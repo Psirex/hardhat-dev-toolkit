@@ -1,5 +1,18 @@
 {
+  "exclude": ["node_modules"],
+  "include": ["packages/**/*.ts", "packages/common/format.ts"],
   "compilerOptions": {
-    "esModuleInterop": true
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "outDir": "dist",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": true,
+    "skipLibCheck": true
   }
 }

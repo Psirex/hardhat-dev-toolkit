@@ -3,9 +3,7 @@ import chalk from "chalk";
 import fs from "fs/promises";
 import { Provider } from "ethers";
 import { Wallet, HDNodeWallet } from "ethers";
-import { prompt } from "../common";
-
-type Address = `0x${string}`;
+import { Address, prompt } from "../common";
 
 interface KeystoreEthersV6 {
   id: string;
@@ -255,11 +253,11 @@ export class NamedKeystore {
 
 export class NamedKeystoreStorage {
   private static instances: Record<string, NamedKeystoreStorage> = {};
-  public static create(keystoresDir: string) {
+  public static create(keystoresDir: string): NamedKeystoreStorage {
     if (!this.instances[keystoresDir]) {
       this.instances[keystoresDir] = new NamedKeystoreStorage(keystoresDir);
     }
-    return this.instances[keystoresDir];
+    return this.instances[keystoresDir]!;
   }
 
   private readonly keystoresDir: string;
@@ -310,7 +308,10 @@ export class NamedKeystoreStorage {
     const fileNames = await fs.readdir(this.keystoresDir);
     return Promise.all(
       fileNames.map(async (fileName) =>
-        NamedKeystore.fromKeystore(fileName.split(".")[0], JSON.parse(await this.read(fileName)))
+        NamedKeystore.fromKeystore(
+          fileName.split(".")[0] ?? fileName,
+          JSON.parse(await this.read(fileName))
+        )
       )
     );
   }

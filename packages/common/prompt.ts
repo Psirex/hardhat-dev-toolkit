@@ -1,15 +1,15 @@
 import prompts from "prompts";
 
-interface SelectChoice {
+export interface SelectChoice {
   value: string;
   title: string;
 }
 
-interface SecretOptions {
+export interface SecretOptions {
   invisible?: boolean; // false by default
 }
 
-interface PasswordOptions {
+export interface PasswordOptions {
   confirmation?: boolean; // true by default
 }
 
