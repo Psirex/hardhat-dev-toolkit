@@ -1,9 +1,11 @@
 export * from "./types";
 
-import prompt from "./prompt";
+import bytes from "./bytes";
 import format from "./prompt";
+import prompt from "./prompt";
 
-export { default as prompt } from "./prompt";
+export { default as bytes } from "./bytes";
 export { default as format } from "./format";
+export { default as prompt } from "./prompt";
 
-export default { format, prompt };
+export default { bytes, format, prompt };
