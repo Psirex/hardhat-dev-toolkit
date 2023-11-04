@@ -1,5 +1,5 @@
 import type { HardhatEthersProvider } from "@nomicfoundation/hardhat-ethers/internal/hardhat-ethers-provider";
-import type { Signer, JsonRpcProvider, TransactionRequest, Typed, ContractTransactionResponse, FunctionFragment, ContractTransaction, DeferredTopicFilter, EventFragment } from "ethers";
+import type { Signer, JsonRpcProvider, TransactionRequest, Typed, ContractTransactionResponse, FunctionFragment, ContractTransaction, EventFragment } from "ethers";
 import { HexStrPrefixed } from "../common/bytes";
 export interface ContractCall {
     address: Address;
@@ -31,12 +31,7 @@ export interface TypedContractMethod<A extends Array<any> = Array<any>, R = any,
     estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>;
     staticCallResult(...args: ContractMethodArgs<A, "view">): Promise<R>;
 }
-interface TypedDeferredTopicFilter<_TCEvent extends TypedContractEvent> extends DeferredTopicFilter {
-}
-export interface TypedContractEvent<InputTuple extends Array<any> = any, OutputTuple extends Array<any> = any, OutputObject = any> {
-    (...args: Partial<InputTuple>): TypedDeferredTopicFilter<TypedContractEvent<InputTuple, OutputTuple, OutputObject>>;
-    name: string;
-    fragment: EventFragment;
+export interface TypedContractEvent<InputTuple extends Array<any> = any> {
     getFragment(...args: Partial<InputTuple>): EventFragment;
 }
 export {};
