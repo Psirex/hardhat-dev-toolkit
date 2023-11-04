@@ -10,12 +10,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@types/prompts": "^2.4.7",
     "chalk": "^4.1.2",
+    "clarinet": "^0.12.6",
     "ethers": "^6.8.0",
-    "hardhat": "^2.18.3"
+    "hardhat": "^2.18.3",
+    "lodash": "^4.17.21",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@types/clarinet": "^0.12.2",
+    "@types/lodash": "^4.14.200",
     "@types/node": "^20.8.10",
     "typescript": "^5.2.2"
   }
