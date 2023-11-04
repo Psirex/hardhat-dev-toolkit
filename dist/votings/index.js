@@ -22,6 +22,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const events = __importStar(require("./events"));
 const launch = __importStar(require("./lifecycle"));
@@ -29,10 +32,16 @@ const script = __importStar(require("./vote-script"));
 const testing = __importStar(require("./test-helpers"));
 const inspect = __importStar(require("./trace"));
 const parser = __importStar(require("./evm-script-parser"));
+__exportStar(require("./trace"), exports);
+__exportStar(require("./events"), exports);
+__exportStar(require("./lifecycle"), exports);
+__exportStar(require("./vote-script"), exports);
+__exportStar(require("./test-helpers"), exports);
+__exportStar(require("./evm-script-parser"), exports);
 exports.default = {
     events,
     launch,
     script: { ...script, ...parser },
     testing,
-    inspect
+    inspect,
 };
