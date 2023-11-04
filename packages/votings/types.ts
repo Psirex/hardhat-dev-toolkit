@@ -10,6 +10,12 @@ import type {
   DeferredTopicFilter,
   EventFragment,
 } from "ethers";
+import { HexStrPrefixed } from "../common/bytes";
+
+export interface ContractCall {
+  address: Address;
+  calldata: HexStrPrefixed;
+}
 
 export type Provider = JsonRpcProvider | HardhatEthersProvider;
 export type SignerWithAddress = Signer & { address: Address };

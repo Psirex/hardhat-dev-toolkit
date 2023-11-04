@@ -1,28 +1,15 @@
 import { BaseContract, BytesLike, FunctionFragment } from "ethers";
 import { HexStrPrefixed } from "../common/bytes";
 import { TypedContractMethod } from "./types";
+import { EvmCall } from "./evm-script-parser";
 type _TypedContractMethod = Omit<TypedContractMethod, "staticCallResult">;
 type _TypedContractArgs<T extends _TypedContractMethod> = Parameters<T["staticCall"]>;
-type EncodedEvmScript = HexStrPrefixed;
 type ForwardContractMethod = TypedContractMethod<[_evmScript: BytesLike], [void], "nonpayable">;
 interface AragonForwarder extends BaseContract {
     forward: ForwardContractMethod;
 }
-/**
- * Data of the EVM script call
- * @param contract - address of the contract to call
- * @param calldata - ABI encoded calldata passed with call
- */
-export interface EvmCall {
-    address: Address;
-    calldata: HexStrPrefixed;
-}
 export interface FormattedEvmCall extends EvmCall {
     format(padding?: number): string;
-}
-interface DecodedEvmScript {
-    specId: string;
-    calls: EvmCall[];
 }
 declare class AragonEvmForward implements FormattedEvmCall {
     private readonly forwarder;
@@ -41,16 +28,6 @@ declare class ContractEvmCall implements FormattedEvmCall {
     get calldata(): HexStrPrefixed;
     format(padding?: number): string;
     private formatArgument;
-}
-export declare class EvmScriptParser {
-    static readonly SPEC_ID_LENGTH = 4;
-    static readonly CALLDATA_LENGTH = 4;
-    static readonly CALLDATA_LENGTH_LENGTH = 4;
-    static readonly DEFAULT_SPEC_ID = "0x00000001";
-    static isEvmScript(script: unknown, specId?: string): script is HexStrPrefixed;
-    static encode(calls: EvmCall[], specId?: string): HexStrPrefixed;
-    static decode(evmScript: EncodedEvmScript): Required<DecodedEvmScript>;
-    private static encodeEvmScriptCall;
 }
 /**
  *

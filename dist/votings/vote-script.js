@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.forward = exports.call = exports.evm = exports.EvmScriptParser = void 0;
+exports.forward = exports.call = exports.evm = void 0;
 const ethers_1 = require("ethers");
 const contracts_1 = __importDefault(require("../contracts"));
 const bytes_1 = __importDefault(require("../common/bytes"));
-const ADDRESS_LENGTH = 20;
+const evm_script_parser_1 = require("./evm-script-parser");
 class AragonEvmForward {
     forwarder;
     calls;
@@ -69,51 +69,13 @@ class ContractEvmCall {
 function padLeft(str, padding) {
     return " ".repeat(padding) + str;
 }
-class EvmScriptParser {
-    static SPEC_ID_LENGTH = 4;
-    static CALLDATA_LENGTH = 4;
-    static CALLDATA_LENGTH_LENGTH = 4;
-    static DEFAULT_SPEC_ID = "0x00000001";
-    static isEvmScript(script, specId = this.DEFAULT_SPEC_ID) {
-        return bytes_1.default.isValid(script) && script.startsWith(specId);
-    }
-    static encode(calls, specId = this.DEFAULT_SPEC_ID) {
-        const res = calls.reduce((evmScript, call) => bytes_1.default.join(evmScript, this.encodeEvmScriptCall(call)), specId);
-        return bytes_1.default.normalize(res);
-    }
-    static decode(evmScript) {
-        const evmScriptLength = bytes_1.default.length(evmScript);
-        if (evmScriptLength < this.SPEC_ID_LENGTH) {
-            throw new Error("Invalid evmScript length");
-        }
-        const res = {
-            specId: bytes_1.default.slice(evmScript, 0, this.SPEC_ID_LENGTH),
-            calls: [],
-        };
-        let startIndex = this.SPEC_ID_LENGTH;
-        while (startIndex < evmScriptLength) {
-            const contract = bytes_1.default.slice(evmScript, startIndex, (startIndex += ADDRESS_LENGTH));
-            const calldataLength = bytes_1.default.toInt(bytes_1.default.slice(evmScript, startIndex, (startIndex += this.CALLDATA_LENGTH)));
-            const calldata = bytes_1.default.slice(evmScript, startIndex, (startIndex += calldataLength));
-            res.calls.push({ address: contract, calldata });
-        }
-        if (startIndex !== evmScriptLength) {
-            throw new Error("Invalid evmScript length");
-        }
-        return res;
-    }
-    static encodeEvmScriptCall(call) {
-        return bytes_1.default.join(call.address, bytes_1.default.padStart(bytes_1.default.encode(bytes_1.default.length(call.calldata)), this.CALLDATA_LENGTH_LENGTH), call.calldata);
-    }
-}
-exports.EvmScriptParser = EvmScriptParser;
 /**
  *
  * @param calls - calls to encode as EVM script
  * @returns EVM script for the sequence of the calls
  */
 function evm(...calls) {
-    return EvmScriptParser.encode(calls);
+    return evm_script_parser_1.EvmScriptParser.encode(calls);
 }
 exports.evm = evm;
 /**

@@ -32,4 +32,5 @@ __exportStar(require("./lifecycle"), exports);
 __exportStar(require("./vote-script"), exports);
 __exportStar(require("./test-helpers"), exports);
 __exportStar(require("./trace"), exports);
+__exportStar(require("./evm-script-parser"), exports);
 exports.constants = __importStar(require("./constants"));
