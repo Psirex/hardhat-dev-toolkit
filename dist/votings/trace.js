@@ -12,7 +12,7 @@ const contracts_1 = __importDefault(require("../contracts"));
 async function trace(enactReceipt, options = { extended: false }) {
     const provider = providers_1.default.provider(enactReceipt);
     const chainId = await providers_1.default.chainId(provider);
-    const { contracts: { kernel, acl, evmScriptRegistry, callsScript }, implementations: { kernel: kernelImpl, acl: aclImpl, evmScriptRegistry: evmScriptRegistryImpl }, } = contracts_1.default.create((0, constants_1.config)(chainId), provider);
+    const { acl, kernel, callsScript, evmScriptRegistry, implementations: { kernel: kernelImpl, acl: aclImpl, evmScriptRegistry: evmScriptRegistryImpl }, } = contracts_1.default.create((0, constants_1.config)(chainId), provider);
     const trace = await traces_1.default.trace(enactReceipt);
     if (options.extended)
         return trace;

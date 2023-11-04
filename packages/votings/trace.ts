@@ -23,7 +23,10 @@ export async function trace(
   const provider = providers.provider(enactReceipt);
   const chainId = await providers.chainId(provider);
   const {
-    contracts: { kernel, acl, evmScriptRegistry, callsScript },
+    acl,
+    kernel,
+    callsScript,
+    evmScriptRegistry,
     implementations: { kernel: kernelImpl, acl: aclImpl, evmScriptRegistry: evmScriptRegistryImpl },
   } = contracts.create(config(chainId), provider);
 

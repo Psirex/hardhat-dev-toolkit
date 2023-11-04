@@ -10,7 +10,7 @@ const lifecycle_1 = require("./lifecycle");
 const contracts_1 = __importDefault(require("../contracts"));
 async function creator(provider) {
     const { unlock, lock } = providers_1.default.cheats(provider);
-    const { contracts: { ldo }, } = contracts_1.default.create((0, constants_1.config)(await providers_1.default.chainId(provider)), provider);
+    const { ldo } = contracts_1.default.create((0, constants_1.config)(await providers_1.default.chainId(provider)), provider);
     const [creator, creatorLdoBalance] = await Promise.all([
         unlock(constants_1.CREATOR, constants_1.CREATOR_ETH_BALANCE),
         ldo.balanceOf(constants_1.CREATOR),
@@ -31,7 +31,7 @@ async function pass(provider, voteId, overrides = { gasLimit: constants_1.DEFAUL
     const whaleAddress = (0, constants_1.getWhale)(chainId);
     const whaleBalanceBefore = await provider.getBalance(whaleAddress);
     const whale = await unlock(whaleAddress, 10n * 10n ** 18n);
-    const { contracts: { ldo, voting }, } = contracts_1.default.create((0, constants_1.config)(await providers_1.default.chainId(provider)), whale);
+    const { ldo, voting } = contracts_1.default.create((0, constants_1.config)(await providers_1.default.chainId(provider)), whale);
     await ldo.transfer(constants_1.CREATOR, constants_1.CREATOR_LDO_BALANCE);
     await voting.vote(voteId, true, false);
     await increaseTime(constants_1.VOTE_DURATION);

@@ -10,13 +10,13 @@ function isContractConfig(record) {
     const impl = record && record.impl;
     return !!impl && !!impl.factory;
 }
-function contracts(contractsConfig, runner) {
+function instances(contractsConfig, runner) {
     const res = {};
     for (const key of Object.keys(contractsConfig)) {
         const nestedConfig = contractsConfig[key];
         res[key] = isContractConfig(nestedConfig)
             ? named_contract_1.NamedContractsBuilder.buildContract(key, nestedConfig, runner)
-            : contracts(nestedConfig || {}, runner);
+            : instances(nestedConfig || {}, runner);
     }
     return res;
 }
@@ -48,8 +48,8 @@ function implementations(contractsConfig, runner) {
 }
 function create(contractsConfig, runner) {
     return {
+        ...instances(contractsConfig, runner),
         proxies: proxies(contractsConfig, runner),
-        contracts: contracts(contractsConfig, runner),
         implementations: implementations(contractsConfig, runner),
     };
 }
@@ -96,6 +96,9 @@ exports.default = {
     label,
     resolve,
     resolver,
+    proxies,
+    instances,
+    implementations,
     setup: {
         jsonCachePath: setJsonCachePath,
         etherscanToken: setEtherscanToken,

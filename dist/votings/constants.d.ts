@@ -94,66 +94,25 @@ export declare function config(chainId: ChainId): {
     };
 };
 export declare const CONTRACTS: {
-    "1": import("../contracts/contracts").Instance<{
-        readonly ldo: {
-            readonly impl: {
-                readonly address: "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32" | "0x56340274fB5a72af1A3C6609061c451De7961Bd4";
-                readonly factory: Contract__factory<LdoContract>;
-            };
-            readonly proxy: null;
+    "1": {
+        readonly ldo: import("../contracts/types").NamedContract<LdoContract, never>;
+        readonly acl: import("../contracts/types").NamedContract<BaseContract, "0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb" | "0xb3CF58412a00282934D3C3E73F49347567516E98">;
+        readonly kernel: import("../contracts/types").NamedContract<BaseContract, "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc" | "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A">;
+        readonly voting: import("../contracts/types").NamedContract<VotingContract, never>;
+        readonly evmScriptRegistry: import("../contracts/types").NamedContract<BaseContract, "0x" | "0x853cc0D5917f49B57B8e9F89e491F5E18919093A">;
+        readonly callsScript: import("../contracts/types").NamedContract<BaseContract, never>;
+        readonly tokenManager: import("../contracts/types").NamedContract<TokenManager, never>;
+        proxies: {
+            readonly acl: import("../contracts/types").NamedContract<BaseContract, "0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb" | "0xb3CF58412a00282934D3C3E73F49347567516E98">;
+            readonly kernel: import("../contracts/types").NamedContract<BaseContract, "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc" | "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A">;
+            readonly evmScriptRegistry: import("../contracts/types").NamedContract<BaseContract, "0x" | "0x853cc0D5917f49B57B8e9F89e491F5E18919093A">;
         };
-        readonly acl: {
-            readonly impl: {
-                readonly address: "0x9f3b9198911054B122fDb865f8A5Ac516201c339" | "0x74C81dd97338329367E5C52B1E3CBC5C757d9AEb";
-                readonly factory: Contract__factory<BaseContract>;
-            };
-            readonly proxy: {
-                readonly address: "0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb" | "0xb3CF58412a00282934D3C3E73F49347567516E98";
-                readonly factory: Contract__factory<BaseContract>;
-            };
+        implementations: {
+            readonly acl: import("../contracts/types").NamedContract<BaseContract, "0x9f3b9198911054B122fDb865f8A5Ac516201c339" | "0x74C81dd97338329367E5C52B1E3CBC5C757d9AEb">;
+            readonly kernel: import("../contracts/types").NamedContract<BaseContract, "0x2b33CF282f867A7FF693A66e11B0FcC5552e4425" | "0xcC272fA3bFa4AE2043320e2d56Cf5AE439c62C3d">;
+            readonly evmScriptRegistry: import("../contracts/types").NamedContract<BaseContract, "0x" | "0xBF1Ce0Bc4EdaAD8e576b3b55e19c4C15Cf6999eb">;
         };
-        readonly kernel: {
-            readonly impl: {
-                readonly address: "0x2b33CF282f867A7FF693A66e11B0FcC5552e4425" | "0xcC272fA3bFa4AE2043320e2d56Cf5AE439c62C3d";
-                readonly factory: Contract__factory<BaseContract>;
-            };
-            readonly proxy: {
-                readonly address: "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc" | "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A";
-                readonly factory: Contract__factory<BaseContract>;
-            };
-        };
-        readonly voting: {
-            readonly impl: {
-                readonly address: "0x2e59A20f205bB85a89C53f1936454680651E618e" | "0xbc0B67b4553f4CF52a913DE9A6eD0057E2E758Db";
-                readonly factory: Contract__factory<VotingContract>;
-            };
-            readonly proxy: null;
-        };
-        readonly evmScriptRegistry: {
-            readonly impl: {
-                readonly address: "0x" | "0xBF1Ce0Bc4EdaAD8e576b3b55e19c4C15Cf6999eb";
-                readonly factory: Contract__factory<BaseContract>;
-            };
-            readonly proxy: {
-                readonly address: "0x" | "0x853cc0D5917f49B57B8e9F89e491F5E18919093A";
-                readonly factory: Contract__factory<BaseContract>;
-            };
-        };
-        readonly callsScript: {
-            readonly impl: {
-                readonly address: "0x" | "0x5cEb19e1890f677c3676d5ecDF7c501eBA01A054";
-                readonly factory: Contract__factory<BaseContract>;
-            };
-            readonly proxy: null;
-        };
-        readonly tokenManager: {
-            readonly impl: {
-                readonly address: "0xf73a1260d222f447210581DDf212D915c09a3249" | "0xAb304946E8Ed172037aC9aBF9da58a6a7C8d443B";
-                readonly factory: Contract__factory<TokenManager>;
-            };
-            readonly proxy: null;
-        };
-    }>;
+    };
 };
 export declare const ADDRESSES: {
     readonly "1": {

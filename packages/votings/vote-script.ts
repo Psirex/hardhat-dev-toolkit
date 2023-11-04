@@ -9,7 +9,7 @@ type _TypedContractMethod = Omit<TypedContractMethod, "staticCallResult">;
 type _TypedContractArgs<T extends _TypedContractMethod> = Parameters<T["staticCall"]>;
 
 type ForwardContractMethod = TypedContractMethod<[_evmScript: BytesLike], [void], "nonpayable">;
-interface AragonForwarder extends BaseContract {
+export interface AragonForwarder extends BaseContract {
   forward: ForwardContractMethod;
 }
 
@@ -17,7 +17,7 @@ export interface FormattedEvmCall extends EvmCall {
   format(padding?: number): string;
 }
 
-class AragonEvmForward implements FormattedEvmCall {
+export class AragonEvmForward implements FormattedEvmCall {
   constructor(
     private readonly forwarder: AragonForwarder,
     private readonly calls: ContractEvmCall[]
@@ -51,7 +51,7 @@ class AragonEvmForward implements FormattedEvmCall {
   }
 }
 
-class ContractEvmCall implements FormattedEvmCall {
+export class ContractEvmCall implements FormattedEvmCall {
   constructor(
     private readonly contract: BaseContract,
     private readonly method: FunctionFragment,

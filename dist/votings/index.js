@@ -15,9 +15,6 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -26,11 +23,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constants = void 0;
-__exportStar(require("./events"), exports);
-__exportStar(require("./lifecycle"), exports);
-__exportStar(require("./vote-script"), exports);
-__exportStar(require("./test-helpers"), exports);
-__exportStar(require("./trace"), exports);
-__exportStar(require("./evm-script-parser"), exports);
-exports.constants = __importStar(require("./constants"));
+const events = __importStar(require("./events"));
+const launch = __importStar(require("./lifecycle"));
+const script = __importStar(require("./vote-script"));
+const testing = __importStar(require("./test-helpers"));
+const inspect = __importStar(require("./trace"));
+const parser = __importStar(require("./evm-script-parser"));
+exports.default = {
+    events,
+    launch,
+    script: { ...script, ...parser },
+    testing,
+    inspect
+};

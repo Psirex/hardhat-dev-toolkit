@@ -6,15 +6,27 @@ import { NamedContractsResolver } from "./named-contracts-resolver";
 import { EtherscanChainConfig } from "./etherscan-chains-config";
 import { ChainId } from "../common";
 
+/**
+ * @description Combines members of an intersection into a readable type.
+ *
+ * @see {@link https://twitter.com/mattpocockuk/status/1622730173446557697?s=20&t=NdpAcmEFXY01xkqU3KO0Mg}
+ * @example
+ * Prettify<{ a: string } & { b: string } & { c: number, d: bigint }>
+ * => { a: string, b: string, c: number, d: bigint }
+ */
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
 type FactoryResult<T extends ContractConfig> = ReturnType<T["factory"]["connect"]>;
 
 type GetProxyAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig
   ? T["proxy"]["address"]
   : never;
 
-type Contracts<T extends ContractsConfig> = {
+type Instances<T extends ContractsConfig> = {
   [K in keyof T]: T[K] extends ContractsConfig
-    ? Contracts<T[K]>
+    ? Instances<T[K]>
     : T[K] extends ProxiableContractConfig
     ? NamedContract<FactoryResult<T[K]["impl"]>, GetProxyAddress<T[K]>>
     : never;
@@ -52,29 +64,30 @@ type Implementations<T extends ContractsConfig> = {
     : never;
 };
 
-export type Instance<T extends ContractsConfig> = {
-  implementations: Implementations<OmitEmptyProxies<T>>;
-  proxies: Proxies<OmitEmptyProxies<T>>;
-  contracts: Contracts<T>;
-};
+export type Contracts<T extends ContractsConfig> = Prettify<
+  Instances<T> & {
+    proxies: Proxies<OmitEmptyProxies<T>>;
+    implementations: Implementations<OmitEmptyProxies<T>>;
+  }
+>;
 
 function isContractConfig(record: unknown): record is ProxiableContractConfig {
   const impl = record && (record as ProxiableContractConfig).impl;
   return !!impl && !!(impl as ContractConfig).factory;
 }
 
-function contracts<T extends ContractsConfig>(
+function instances<T extends ContractsConfig>(
   contractsConfig: T,
   runner?: ContractRunner
-): Contracts<T> {
+): Instances<T> {
   const res: Record<string, unknown> = {};
   for (const key of Object.keys(contractsConfig)) {
     const nestedConfig = contractsConfig[key];
     res[key] = isContractConfig(nestedConfig)
       ? NamedContractsBuilder.buildContract(key, nestedConfig, runner)
-      : contracts(nestedConfig || {}, runner);
+      : instances(nestedConfig || {}, runner);
   }
-  return res as Contracts<T>;
+  return res as Instances<T>;
 }
 
 function proxies<T extends ContractsConfig>(
@@ -112,10 +125,10 @@ function implementations<T extends ContractsConfig>(
 function create<T extends ContractsConfig>(
   contractsConfig: T,
   runner?: ContractRunner
-): Instance<T> {
+): Contracts<T> {
   return {
+    ...instances(contractsConfig, runner),
     proxies: proxies(contractsConfig, runner),
-    contracts: contracts(contractsConfig, runner),
     implementations: implementations(contractsConfig, runner),
   };
 }
@@ -174,6 +187,9 @@ export default {
   label,
   resolve,
   resolver,
+  proxies,
+  instances,
+  implementations,
   setup: {
     jsonCachePath: setJsonCachePath,
     etherscanToken: setEtherscanToken,

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.forward = exports.call = exports.evm = void 0;
+exports.forward = exports.call = exports.evm = exports.ContractEvmCall = exports.AragonEvmForward = void 0;
 const ethers_1 = require("ethers");
 const contracts_1 = __importDefault(require("../contracts"));
 const bytes_1 = __importDefault(require("../common/bytes"));
@@ -36,6 +36,7 @@ class AragonEvmForward {
         ].join("\n");
     }
 }
+exports.AragonEvmForward = AragonEvmForward;
 class ContractEvmCall {
     contract;
     method;
@@ -66,6 +67,7 @@ class ContractEvmCall {
         return arg;
     }
 }
+exports.ContractEvmCall = ContractEvmCall;
 function padLeft(str, padding) {
     return " ".repeat(padding) + str;
 }

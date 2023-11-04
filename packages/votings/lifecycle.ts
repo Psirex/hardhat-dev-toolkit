@@ -12,9 +12,7 @@ export async function start(
   castVote: boolean = false,
   overrides?: NonPayableOverrides
 ) {
-  const {
-    contracts: { voting, tokenManager },
-  } = contracts.create(config(await providers.chainId(creator)));
+  const { voting, tokenManager } = contracts.create(config(await providers.chainId(creator)));
 
   const startVoteScript = evm(call(voting.newVote, [evmScript, meta, castVote, false]));
   return tokenManager.connect(creator).forward(startVoteScript, overrides ?? {});
@@ -26,9 +24,7 @@ export async function wait(tx: ContractTransactionResponse) {
     throw new Error("Invalid confirmations value");
   }
 
-  const {
-    contracts: { voting },
-  } = contracts.create(config(await providers.chainId(tx)));
+  const { voting } = contracts.create(config(await providers.chainId(tx)));
   const startVoteLog = receipt.logs.find(
     (log) => log.topics[0] === voting.interface.getEvent("StartVote")!.topicHash
   );
@@ -51,9 +47,7 @@ export async function execute<T extends Signer>(
   voteId: number | bigint | string,
   overrides?: NonPayableOverrides
 ) {
-  const {
-    contracts: { voting },
-  } = contracts.create(config(await providers.chainId(executor)));
+  const { voting } = contracts.create(config(await providers.chainId(executor)));
 
   const tx = await voting.executeVote(voteId, overrides ?? {});
   const receipt = await tx.wait();

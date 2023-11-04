@@ -5,13 +5,13 @@ import { EvmCall } from "./evm-script-parser";
 type _TypedContractMethod = Omit<TypedContractMethod, "staticCallResult">;
 type _TypedContractArgs<T extends _TypedContractMethod> = Parameters<T["staticCall"]>;
 type ForwardContractMethod = TypedContractMethod<[_evmScript: BytesLike], [void], "nonpayable">;
-interface AragonForwarder extends BaseContract {
+export interface AragonForwarder extends BaseContract {
     forward: ForwardContractMethod;
 }
 export interface FormattedEvmCall extends EvmCall {
     format(padding?: number): string;
 }
-declare class AragonEvmForward implements FormattedEvmCall {
+export declare class AragonEvmForward implements FormattedEvmCall {
     private readonly forwarder;
     private readonly calls;
     constructor(forwarder: AragonForwarder, calls: ContractEvmCall[]);
@@ -19,7 +19,7 @@ declare class AragonEvmForward implements FormattedEvmCall {
     get calldata(): HexStrPrefixed;
     format(padding?: number): string;
 }
-declare class ContractEvmCall implements FormattedEvmCall {
+export declare class ContractEvmCall implements FormattedEvmCall {
     private readonly contract;
     private readonly method;
     private readonly args;

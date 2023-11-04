@@ -16,9 +16,7 @@ import { NonPayableOverrides } from "./types";
 export async function creator(provider: RpcProvider): Promise<Signer> {
   const { unlock, lock } = providers.cheats(provider);
 
-  const {
-    contracts: { ldo },
-  } = contracts.create(config(await providers.chainId(provider)), provider);
+  const { ldo } = contracts.create(config(await providers.chainId(provider)), provider);
 
   const [creator, creatorLdoBalance] = await Promise.all([
     unlock(CREATOR, CREATOR_ETH_BALANCE),
@@ -48,9 +46,7 @@ export async function pass(
   const whaleBalanceBefore = await provider.getBalance(whaleAddress);
   const whale = await unlock(whaleAddress, 10n * 10n ** 18n);
 
-  const {
-    contracts: { ldo, voting },
-  } = contracts.create(config(await providers.chainId(provider)), whale);
+  const { ldo, voting } = contracts.create(config(await providers.chainId(provider)), whale);
 
   await ldo.transfer(CREATOR, CREATOR_LDO_BALANCE);
 
