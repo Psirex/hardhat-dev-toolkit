@@ -113,6 +113,16 @@ async function sendReset(node, provider, jsonRpcUrl, blockNumber) {
             throw new Error(`Ganache node does not support resetting`);
     }
 }
+async function sendLock(node, provider, address) {
+    switch (node.name) {
+        case "anvil":
+            return provider.send("anvil_stopImpersonatingAccount", [address]);
+        case "hardhat":
+            return provider.send("hardhat_stopImpersonatingAccount", [address]);
+        case "ganache":
+            return provider.send("personal_lockAccount", [address]);
+    }
+}
 function cheats(provider) {
     let cachedNode;
     async function revert(snapshotId) {
@@ -180,7 +190,13 @@ function cheats(provider) {
         return signer(provider, address);
     }
     async function lock(address, balance) {
-        throw new Error(`Method not implemented ${address}, ${balance}`);
+        const success = await sendLock(await node(), provider, address);
+        if (!success) {
+            throw new Error(`Can't unlock the account ${address}`);
+        }
+        if (balance !== undefined) {
+            await sendSetBalance(await node(), provider, address, balance);
+        }
     }
     async function reset(params) {
         await sendReset(await node(), provider, params?.jsonRpcUrl, params?.blockNumber);

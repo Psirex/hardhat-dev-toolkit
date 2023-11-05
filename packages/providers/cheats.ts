@@ -161,6 +161,21 @@ async function sendReset(
   }
 }
 
+async function sendLock(
+  node: LocalNodeInfo,
+  provider: RpcProvider,
+  address: Address
+): Promise<unknown> {
+  switch (node.name) {
+    case "anvil":
+      return provider.send("anvil_stopImpersonatingAccount", [address]);
+    case "hardhat":
+      return provider.send("hardhat_stopImpersonatingAccount", [address]);
+    case "ganache":
+      return provider.send("personal_lockAccount", [address]);
+  }
+}
+
 export function cheats(provider: RpcProvider): Cheats {
   let cachedNode: LocalNodeInfo | undefined;
 
@@ -243,7 +258,13 @@ export function cheats(provider: RpcProvider): Cheats {
   }
 
   async function lock(address: Address, balance?: bigint): Promise<void> {
-    throw new Error(`Method not implemented ${address}, ${balance}`);
+    const success = await sendLock(await node(), provider, address);
+    if (!success) {
+      throw new Error(`Can't unlock the account ${address}`);
+    }
+    if (balance !== undefined) {
+      await sendSetBalance(await node(), provider, address, balance);
+    }
   }
 
   async function reset(params?: { jsonRpcUrl?: string; blockNumber?: number }): Promise<void> {
