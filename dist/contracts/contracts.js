@@ -54,13 +54,11 @@ function create(contractsConfig, runner) {
     };
 }
 function address(contractOrAddress) {
-    if ("address" in contractOrAddress) {
+    if (typeof contractOrAddress === "string")
+        return contractOrAddress;
+    if (typeof contractOrAddress === "object" && "address" in contractOrAddress) {
         return contractOrAddress.address;
     }
-    if (typeof contractOrAddress === "string")
-        return contractOrAddress;
-    if (typeof contractOrAddress === "string")
-        return contractOrAddress;
     const { target } = contractOrAddress;
     if (typeof target !== "string") {
         throw new Error("target is not an string instance");

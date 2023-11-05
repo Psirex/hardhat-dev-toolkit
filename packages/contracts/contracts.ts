@@ -22,7 +22,7 @@ type FactoryResult<T extends ContractConfig> = ReturnType<T["factory"]["connect"
 
 type GetInstanceAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig
   ? T["proxy"]["address"]
-  : T["impl"]["address"]
+  : T["impl"]["address"];
 
 type Instances<T extends ContractsConfig> = {
   [K in keyof T]: T[K] extends ContractsConfig
@@ -138,12 +138,12 @@ function create<T extends ContractsConfig>(
 }
 
 function address(contractOrAddress: Address | BaseContract | NamedContract): Address {
-  if ("address" in (contractOrAddress as object)) {
-    return (contractOrAddress as NamedContract).address;
-  }
   if (typeof contractOrAddress === "string") return contractOrAddress;
 
-  if (typeof contractOrAddress === "string") return contractOrAddress;
+  if (typeof contractOrAddress === "object" && "address" in contractOrAddress) {
+    return (contractOrAddress as NamedContract).address;
+  }
+
   const { target } = contractOrAddress as BaseContract;
 
   if (typeof target !== "string") {
