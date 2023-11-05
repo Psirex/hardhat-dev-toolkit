@@ -247,7 +247,7 @@ export function cheats(provider: RpcProvider): Cheats {
   }
   async function unlock(address: Address, balance?: bigint) {
     const success = await sendImpersonate(await node(), provider, address);
-    if (!success) {
+    if (success === false) {
       throw new Error(`Can't unlock the account ${address}`);
     }
     if (balance !== undefined) {
@@ -259,8 +259,8 @@ export function cheats(provider: RpcProvider): Cheats {
 
   async function lock(address: Address, balance?: bigint): Promise<void> {
     const success = await sendLock(await node(), provider, address);
-    if (!success) {
-      throw new Error(`Can't unlock the account ${address}`);
+    if (success === false) {
+      throw new Error(`Can't lock the account ${address}`);
     }
     if (balance !== undefined) {
       await sendSetBalance(await node(), provider, address, balance);

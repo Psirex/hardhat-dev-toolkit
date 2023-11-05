@@ -181,7 +181,7 @@ function cheats(provider) {
     }
     async function unlock(address, balance) {
         const success = await sendImpersonate(await node(), provider, address);
-        if (!success) {
+        if (success === false) {
             throw new Error(`Can't unlock the account ${address}`);
         }
         if (balance !== undefined) {
@@ -191,8 +191,8 @@ function cheats(provider) {
     }
     async function lock(address, balance) {
         const success = await sendLock(await node(), provider, address);
-        if (!success) {
-            throw new Error(`Can't unlock the account ${address}`);
+        if (success === false) {
+            throw new Error(`Can't lock the account ${address}`);
         }
         if (balance !== undefined) {
             await sendSetBalance(await node(), provider, address, balance);
