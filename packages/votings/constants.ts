@@ -1,6 +1,5 @@
 import { AddressLike, BaseContract, BigNumberish, BytesLike } from "ethers";
 import { ChainId } from "../common";
-import contracts from "../contracts";
 import { Contract__factory } from "../contracts/named-contract";
 import { TypedContractMethod } from "./types";
 
@@ -8,7 +7,45 @@ export const CREATOR = "0x1D0f1d0f1d0F1d0F1d0F1d0F1d0f1D0f1D0F1d0F";
 export const CREATOR_ETH_BALANCE = 10n * 10n ** 18n; // 10 ETH
 export const CREATOR_LDO_BALANCE = 10n ** 18n; // 1 LDO
 export const VOTE_DURATION = 5 * 24 * 60 * 60;
-export const DEFAULT_GAS_LIMIT = 5_000_000
+export const DEFAULT_GAS_LIMIT = 5_000_000;
+
+const MAINNET_ADDRESSES = {
+  ldo: "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
+  aclProxy: "0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb",
+  aclImpl: "0x9f3b9198911054B122fDb865f8A5Ac516201c339",
+  voting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
+  kernelProxy: "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc",
+  kernelImpl: "0x2b33CF282f867A7FF693A66e11B0FcC5552e4425",
+  lidoLocator: "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb",
+  tokenManager: "0xf73a1260d222f447210581DDf212D915c09a3249",
+  callsScript: "0x5cEb19e1890f677c3676d5ecDF7c501eBA01A054",
+  evmScriptRegistryProxy: "0x853cc0D5917f49B57B8e9F89e491F5E18919093A",
+  evmScriptRegistryImpl: "0xBF1Ce0Bc4EdaAD8e576b3b55e19c4C15Cf6999eb",
+} as const;
+
+const GOERLI_ADDRESSES = {
+  ldo: "0x56340274fB5a72af1A3C6609061c451De7961Bd4",
+  aclProxy: "0xb3CF58412a00282934D3C3E73F49347567516E98",
+  aclImpl: "0x74C81dd97338329367E5C52B1E3CBC5C757d9AEb",
+  callsScript: "0x",
+  evmScriptRegistryProxy: "0x",
+  evmScriptRegistryImpl: "0x",
+  voting: "0xbc0B67b4553f4CF52a913DE9A6eD0057E2E758Db",
+  kernelProxy: "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A",
+  kernelImpl: "0xcC272fA3bFa4AE2043320e2d56Cf5AE439c62C3d",
+  lidoLocator: "0x1eDf09b5023DC86737b59dE68a8130De878984f5",
+  tokenManager: "0xAb304946E8Ed172037aC9aBF9da58a6a7C8d443B",
+} as const;
+
+export const ADDRESSES = {
+  "1": MAINNET_ADDRESSES,
+  "5": GOERLI_ADDRESSES,
+} as const;
+
+export const LDO_WHALES = {
+  1: "0x820fb25352BB0c5E03E07AFc1d86252fFD2F0A18",
+  5: "0x319d5370715D24A1225817009BB23e676aE741D3",
+} as const;
 
 const EmptyContractFactory = new Contract__factory([]);
 
@@ -333,48 +370,6 @@ export function config(chainId: ChainId) {
     },
   } as const;
 }
-
-export const CONTRACTS = {
-  "1": contracts.create(config(1)),
-};
-
-const MAINNET_ADDRESSES = {
-  ldo: "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
-  aclProxy: "0x9895F0F17cc1d1891b6f18ee0b483B6f221b37Bb",
-  aclImpl: "0x9f3b9198911054B122fDb865f8A5Ac516201c339",
-  voting: "0x2e59A20f205bB85a89C53f1936454680651E618e",
-  kernelProxy: "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc",
-  kernelImpl: "0x2b33CF282f867A7FF693A66e11B0FcC5552e4425",
-  lidoLocator: "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb",
-  tokenManager: "0xf73a1260d222f447210581DDf212D915c09a3249",
-  callsScript: "0x5cEb19e1890f677c3676d5ecDF7c501eBA01A054",
-  evmScriptRegistryProxy: "0x853cc0D5917f49B57B8e9F89e491F5E18919093A",
-  evmScriptRegistryImpl: "0xBF1Ce0Bc4EdaAD8e576b3b55e19c4C15Cf6999eb",
-} as const;
-
-const GOERLI_ADDRESSES = {
-  ldo: "0x56340274fB5a72af1A3C6609061c451De7961Bd4",
-  aclProxy: "0xb3CF58412a00282934D3C3E73F49347567516E98",
-  aclImpl: "0x74C81dd97338329367E5C52B1E3CBC5C757d9AEb",
-  callsScript: "0x",
-  evmScriptRegistryProxy: "0x",
-  evmScriptRegistryImpl: "0x",
-  voting: "0xbc0B67b4553f4CF52a913DE9A6eD0057E2E758Db",
-  kernelProxy: "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A",
-  kernelImpl: "0xcC272fA3bFa4AE2043320e2d56Cf5AE439c62C3d",
-  lidoLocator: "0x1eDf09b5023DC86737b59dE68a8130De878984f5",
-  tokenManager: "0xAb304946E8Ed172037aC9aBF9da58a6a7C8d443B",
-} as const;
-
-export const ADDRESSES = {
-  "1": MAINNET_ADDRESSES,
-  "5": GOERLI_ADDRESSES,
-} as const;
-
-export const LDO_WHALES = {
-  1: "0x820fb25352BB0c5E03E07AFc1d86252fFD2F0A18",
-  5: "0x319d5370715D24A1225817009BB23e676aE741D3",
-} as const;
 
 export function getWhale(chainId: ChainId) {
   const chainIdString = chainId.toString();
