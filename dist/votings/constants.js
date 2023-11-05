@@ -183,6 +183,8 @@ const VotingFactory = new named_contract_1.Contract__factory([
         inputs: [
             { name: "_executionScript", type: "bytes" },
             { name: "_metadata", type: "string" },
+            { name: "_castVote", type: "bool" },
+            { name: "_executesIfDecided_deprecated", type: "bool" },
         ],
         name: "newVote",
         outputs: [{ name: "voteId", type: "uint256" }],
