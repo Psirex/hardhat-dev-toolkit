@@ -20,15 +20,15 @@ export type Prettify<T> = {
 
 type FactoryResult<T extends ContractConfig> = ReturnType<T["factory"]["connect"]>;
 
-type GetProxyAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig
+type GetInstanceAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig
   ? T["proxy"]["address"]
-  : never;
+  : T["impl"]["address"]
 
 type Instances<T extends ContractsConfig> = {
   [K in keyof T]: T[K] extends ContractsConfig
     ? Instances<T[K]>
     : T[K] extends ProxiableContractConfig
-    ? NamedContract<FactoryResult<T[K]["impl"]>, GetProxyAddress<T[K]>>
+    ? NamedContract<FactoryResult<T[K]["impl"]>, GetInstanceAddress<T[K]>>
     : never;
 };
 
@@ -43,6 +43,10 @@ type OmitEmptyProxies<T extends ContractsConfig> = {
     ? OmitEmptyProxies<T[K]>
     : never;
 };
+
+type GetProxyAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig
+  ? T["proxy"]["address"]
+  : never;
 
 type Proxies<T extends ContractsConfig> = {
   [K in keyof T]: T[K] extends ContractsConfig

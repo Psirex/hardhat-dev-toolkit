@@ -15,13 +15,14 @@ export type Prettify<T> = {
     [K in keyof T]: T[K];
 } & {};
 type FactoryResult<T extends ContractConfig> = ReturnType<T["factory"]["connect"]>;
-type GetProxyAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig ? T["proxy"]["address"] : never;
+type GetInstanceAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig ? T["proxy"]["address"] : T["impl"]["address"];
 type Instances<T extends ContractsConfig> = {
-    [K in keyof T]: T[K] extends ContractsConfig ? Instances<T[K]> : T[K] extends ProxiableContractConfig ? NamedContract<FactoryResult<T[K]["impl"]>, GetProxyAddress<T[K]>> : never;
+    [K in keyof T]: T[K] extends ContractsConfig ? Instances<T[K]> : T[K] extends ProxiableContractConfig ? NamedContract<FactoryResult<T[K]["impl"]>, GetInstanceAddress<T[K]>> : never;
 };
 type OmitEmptyProxies<T extends ContractsConfig> = {
     [K in keyof T as T[K] extends ProxiableContractConfig ? T[K]["proxy"] extends ContractConfig ? K : never : K]: T[K] extends ProxiableContractConfig ? T[K] : T[K] extends ContractsConfig ? OmitEmptyProxies<T[K]> : never;
 };
+type GetProxyAddress<T extends ProxiableContractConfig> = T["proxy"] extends ContractConfig ? T["proxy"]["address"] : never;
 type Proxies<T extends ContractsConfig> = {
     [K in keyof T]: T[K] extends ContractsConfig ? Proxies<T[K]> : T[K] extends ProxiableContractConfig ? T[K]["proxy"] extends ContractConfig ? NamedContract<FactoryResult<T[K]["proxy"]>, GetProxyAddress<T[K]>> : never : never;
 };
