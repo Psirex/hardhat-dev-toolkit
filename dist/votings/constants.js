@@ -168,17 +168,6 @@ const VotingFactory = new named_contract_1.Contract__factory([
         type: "function",
     },
     {
-        anonymous: false,
-        inputs: [
-            { indexed: true, name: "executor", type: "address" },
-            { indexed: false, name: "script", type: "bytes" },
-            { indexed: false, name: "input", type: "bytes" },
-            { indexed: false, name: "returnData", type: "bytes" },
-        ],
-        name: "ScriptResult",
-        type: "event",
-    },
-    {
         constant: false,
         inputs: [
             { name: "_executionScript", type: "bytes" },
@@ -204,6 +193,27 @@ const VotingFactory = new named_contract_1.Contract__factory([
         payable: false,
         stateMutability: "nonpayable",
         type: "function",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: true, name: "voteId", type: "uint256" },
+            { indexed: true, name: "creator", type: "address" },
+            { indexed: false, name: "metadata", type: "string" },
+        ],
+        name: "StartVote",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            { indexed: true, name: "executor", type: "address" },
+            { indexed: false, name: "script", type: "bytes" },
+            { indexed: false, name: "input", type: "bytes" },
+            { indexed: false, name: "returnData", type: "bytes" },
+        ],
+        name: "ScriptResult",
+        type: "event",
     },
 ]);
 const EvmScriptRegistryFactory = new named_contract_1.Contract__factory([
