@@ -1,7 +1,4 @@
-import type { Address } from "./types";
-interface Stringable {
-    toString(...args: any[]): string;
-}
+import type { Address, Stringable } from "./types";
 declare function address(address: Address): string;
 declare function opcode(opcode: string): string;
 declare function argument(name: string, value: Stringable): string;

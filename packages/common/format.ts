@@ -1,9 +1,5 @@
 import chalk from "chalk";
-import type { Address } from "./types";
-
-interface Stringable {
-  toString(...args: any[]): string;
-}
+import type { Address, Stringable } from "./types";
 
 function address(address: Address) {
   return chalk.green.underline.italic(address);

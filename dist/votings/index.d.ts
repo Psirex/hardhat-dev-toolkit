@@ -27,9 +27,9 @@ declare const _default: {
                 value?: import("ethers").BigNumberish | null | undefined;
                 chainId?: import("ethers").BigNumberish | null | undefined;
                 gasLimit?: import("ethers").BigNumberish | null | undefined;
+                gasPrice?: import("ethers").BigNumberish | null | undefined;
                 from?: import("ethers").AddressLike | null | undefined;
                 nonce?: number | null | undefined;
-                gasPrice?: import("ethers").BigNumberish | null | undefined;
                 maxPriorityFeePerGas?: import("ethers").BigNumberish | null | undefined;
                 maxFeePerGas?: import("ethers").BigNumberish | null | undefined;
                 accessList?: import("ethers").AccessListish | null | undefined;

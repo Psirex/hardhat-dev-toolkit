@@ -1,0 +1,74 @@
+/// <reference types="node" />
+import { JsonRpcProvider } from "ethers";
+import { ChildProcessWithoutNullStreams } from "node:child_process";
+type HardhatNodeOptions = Partial<{
+    port: number;
+    fork: string;
+    forkBlockNumber: number;
+    hostname: string;
+}>;
+type AnvilNodeOptions = Partial<{
+    accounts: number;
+    blockTime: number;
+    balance: number;
+    configOut: string;
+    derivationPath: string;
+    dumpState: string;
+    hardfork: "shanghai" | "paris" | "london" | "latest";
+    init: string;
+    ipc: string;
+    loadState: string;
+    mnemonic: string;
+    noMining: boolean;
+    order: "fees";
+    port: number;
+    pruneHistory: number;
+    stateInterval: number;
+    silent: boolean;
+    state: string;
+    timestamp: number;
+    transactionBlockKeeper: number;
+    allowOrigin: string;
+    host: string;
+    noCors: boolean;
+    computeUnitsPerSecond: number;
+    forkUrl: string;
+    forkBlockNumber: number;
+    forkChainId: number | bigint;
+    forkRetryBackoff: number;
+    noRateLimit: boolean;
+    noStorageCaching: boolean;
+    retries: number;
+    timeout: number;
+    blockBaseFeePerGas: number;
+    chainId: number;
+    codeSizeLimit: number;
+    disableBlockGasLimit: boolean;
+    gasLimit: number;
+    gasPrice: number;
+    autoImpersonate: boolean;
+    stepsTracing: boolean;
+}>;
+interface SpawnedRpcNode {
+    url: string;
+    host: string;
+    port: number;
+    process: ChildProcessWithoutNullStreams;
+    provider: JsonRpcProvider;
+    stop(): Promise<void>;
+}
+export declare const DEFAULT_PORT = 8545;
+export declare const DEFAULT_HOST = "127.0.0.1";
+declare function setLogsDir(path: string): void;
+declare function getLogsDir(): string;
+declare function spawnNode(name: "anvil", options?: AnvilNodeOptions): Promise<SpawnedRpcNode>;
+declare function spawnNode(name: "hardhat", options?: HardhatNodeOptions): Promise<SpawnedRpcNode>;
+declare function spawnNode(name: "ganache", options?: AnvilNodeOptions): Promise<SpawnedRpcNode>;
+declare const _default: {
+    spawn: typeof spawnNode;
+    setLogsDir: typeof setLogsDir;
+    getLogsDir: typeof getLogsDir;
+    DEFAULT_HOST: string;
+    DEFAULT_PORT: number;
+};
+export default _default;

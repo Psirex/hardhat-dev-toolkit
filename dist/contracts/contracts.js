@@ -85,7 +85,7 @@ function setCustomEtherscanChains(customChains) {
 function resolver() {
     return named_contracts_resolver_1.NamedContractsResolver.singleton();
 }
-async function resolve(chainId, address) {
+function resolve(chainId, address) {
     return named_contracts_resolver_1.NamedContractsResolver.singleton().resolve(chainId, address);
 }
 exports.default = {

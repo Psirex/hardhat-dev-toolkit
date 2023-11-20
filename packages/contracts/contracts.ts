@@ -181,7 +181,7 @@ function resolver(): NamedContractsResolver {
   return NamedContractsResolver.singleton();
 }
 
-async function resolve(chainId: ChainId, address: Address): Promise<NamedContract | null> {
+function resolve(chainId: ChainId, address: Address): Promise<NamedContract | null> {
   return NamedContractsResolver.singleton().resolve(chainId, address);
 }
 

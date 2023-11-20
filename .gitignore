@@ -5,6 +5,8 @@ coverage.json
 typechain
 typechain-types
 
+rpc-node-logs
+
 # Hardhat files
 cache
 artifacts
