@@ -31,7 +31,9 @@ function method(name: string, args = "") {
 }
 
 function contract(name: string, addr: Address) {
-  return `${chalk.magenta.bold(name)}:${address(addr)}`;
+  return (
+    chalk.magenta.bold(name) + chalk.magenta.bold("[") + address(addr) + chalk.magenta.bold("]")
+  );
 }
 
 export default {

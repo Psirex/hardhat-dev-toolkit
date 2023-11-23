@@ -69,14 +69,9 @@ function address(contractOrAddress) {
     }
     return bytes_1.default.normalize(target);
 }
-function label(contract, extended = false) {
+function label(contract) {
     const name = contract.name ?? `Contract`;
-    const fullAddress = address(contract);
-    const formattedAddress = extended
-        ? fullAddress
-        : bytes_1.default.normalize(fullAddress.slice(0, 10) + "..." + fullAddress.slice(-8));
-    return common_1.format.contract(name, formattedAddress);
-    return `${common_1.format.label(name)}[${formattedAddress}]`;
+    return common_1.format.contract(name, address(contract));
 }
 function setEtherscanToken(token) {
     named_contracts_resolver_1.NamedContractsResolver.setEtherscanToken(token);

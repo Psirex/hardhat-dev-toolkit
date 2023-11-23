@@ -157,14 +157,9 @@ function address(contractOrAddress: Address | BaseContract | NamedContract): Add
   return bytes.normalize(target);
 }
 
-function label(contract: BaseContract | NamedContract, extended: boolean = false): string {
+function label(contract: BaseContract | NamedContract): string {
   const name = (contract as any).name ?? `Contract`;
-  const fullAddress = address(contract);
-  const formattedAddress = extended
-    ? fullAddress
-    : bytes.normalize(fullAddress.slice(0, 10) + "..." + fullAddress.slice(-8));
-  return format.contract(name, formattedAddress);
-  return `${format.label(name)}[${formattedAddress}]`;
+  return format.contract(name, address(contract));
 }
 
 function setEtherscanToken(token: string) {

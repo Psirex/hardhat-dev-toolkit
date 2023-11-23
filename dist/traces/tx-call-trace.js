@@ -61,7 +61,7 @@ class TxCallTrace {
         const { fragment } = contract.getFunction(calldata.slice(0, 10));
         return {
             fragment,
-            contractLabel: contracts_1.default.label(contract, true),
+            contractLabel: contracts_1.default.label(contract),
             args: contract.interface.decodeFunctionData(fragment, calldata),
             result: contract.interface.decodeFunctionResult(fragment, ret),
         };

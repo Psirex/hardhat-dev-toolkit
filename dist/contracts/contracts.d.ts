@@ -38,7 +38,7 @@ declare function proxies<T extends ContractsConfig>(contractsConfig: T, runner?:
 declare function implementations<T extends ContractsConfig>(contractsConfig: T, runner?: ContractRunner): Implementations<OmitEmptyProxies<T>>;
 declare function create<T extends ContractsConfig>(contractsConfig: T, runner?: ContractRunner): Contracts<T>;
 declare function address(contractOrAddress: Address | BaseContract | NamedContract): Address;
-declare function label(contract: BaseContract | NamedContract, extended?: boolean): string;
+declare function label(contract: BaseContract | NamedContract): string;
 declare function setEtherscanToken(token: string): void;
 declare function setJsonCachePath(path: string): void;
 declare function setCustomEtherscanChains(customChains: EtherscanChainConfig[]): void;

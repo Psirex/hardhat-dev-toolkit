@@ -28,7 +28,7 @@ function method(name, args = "") {
     return chalk_1.default.blue.italic(name) + chalk_1.default.blue.italic("(") + args + chalk_1.default.blue.italic(")");
 }
 function contract(name, addr) {
-    return `${chalk_1.default.magenta.bold(name)}:${address(addr)}`;
+    return (chalk_1.default.magenta.bold(name) + chalk_1.default.magenta.bold("[") + address(addr) + chalk_1.default.magenta.bold("]"));
 }
 exports.default = {
     label,
