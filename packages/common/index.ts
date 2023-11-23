@@ -1,7 +1,7 @@
 export * from "./types";
 
 import bytes from "./bytes";
-import format from "./prompt";
+import format from "./format";
 import prompt from "./prompt";
 
 export { default as bytes } from "./bytes";

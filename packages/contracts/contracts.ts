@@ -4,7 +4,7 @@ import { NamedContractsBuilder } from "./named-contract";
 import { ContractsConfig, ProxiableContractConfig, ContractConfig, NamedContract } from "./types";
 import { NamedContractsResolver } from "./named-contracts-resolver";
 import { EtherscanChainConfig } from "./etherscan-chains-config";
-import { ChainId } from "../common";
+import { ChainId, format } from "../common";
 
 /**
  * @description Combines members of an intersection into a readable type.
@@ -160,9 +160,11 @@ function address(contractOrAddress: Address | BaseContract | NamedContract): Add
 function label(contract: BaseContract | NamedContract, extended: boolean = false): string {
   const name = (contract as any).name ?? `Contract`;
   const fullAddress = address(contract);
-  return `${name}(${
-    extended ? fullAddress : fullAddress.slice(0, 10) + "..." + fullAddress.slice(-8)
-  })`;
+  const formattedAddress = extended
+    ? fullAddress
+    : bytes.normalize(fullAddress.slice(0, 10) + "..." + fullAddress.slice(-8));
+  return format.contract(name, formattedAddress);
+  return `${format.label(name)}[${formattedAddress}]`;
 }
 
 function setEtherscanToken(token: string) {

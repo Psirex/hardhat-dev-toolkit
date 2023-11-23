@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bytes_1 = __importDefault(require("../common/bytes"));
 const named_contract_1 = require("./named-contract");
 const named_contracts_resolver_1 = require("./named-contracts-resolver");
+const common_1 = require("../common");
 function isContractConfig(record) {
     const impl = record && record.impl;
     return !!impl && !!impl.factory;
@@ -71,7 +72,11 @@ function address(contractOrAddress) {
 function label(contract, extended = false) {
     const name = contract.name ?? `Contract`;
     const fullAddress = address(contract);
-    return `${name}(${extended ? fullAddress : fullAddress.slice(0, 10) + "..." + fullAddress.slice(-8)})`;
+    const formattedAddress = extended
+        ? fullAddress
+        : bytes_1.default.normalize(fullAddress.slice(0, 10) + "..." + fullAddress.slice(-8));
+    return common_1.format.contract(name, formattedAddress);
+    return `${common_1.format.label(name)}[${formattedAddress}]`;
 }
 function setEtherscanToken(token) {
     named_contracts_resolver_1.NamedContractsResolver.setEtherscanToken(token);

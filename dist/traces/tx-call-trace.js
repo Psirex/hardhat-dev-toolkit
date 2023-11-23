@@ -42,7 +42,7 @@ class TxCallTrace {
         const methodCallInfo = contract
             ? this.parseMethodCall(contract, opCode.input, opCode.output)
             : null;
-        const contractLabel = methodCallInfo?.contractLabel || "UNVERIFIED";
+        const contractLabel = methodCallInfo?.contractLabel || format_1.default.contract("UNVERIFIED", opCode.to);
         const methodName = methodCallInfo?.fragment.name || opCode.input.slice(0, 10);
         const methodArgs = methodCallInfo?.fragment.inputs
             .map((input, i) => format_1.default.argument(input.name, methodCallInfo.args[i]))
@@ -51,8 +51,9 @@ class TxCallTrace {
         return (paddingLeft +
             opcode +
             " " +
-            format_1.default.label(contractLabel + "." + methodName) +
-            `(${methodArgs})` +
+            contractLabel +
+            "." +
+            format_1.default.method(methodName, methodArgs) +
             " => " +
             (methodResult.toString() || "void"));
     }
@@ -60,7 +61,7 @@ class TxCallTrace {
         const { fragment } = contract.getFunction(calldata.slice(0, 10));
         return {
             fragment,
-            contractLabel: contracts_1.default.label(contract),
+            contractLabel: contracts_1.default.label(contract, true),
             args: contract.interface.decodeFunctionData(fragment, calldata),
             result: contract.interface.decodeFunctionResult(fragment, ret),
         };

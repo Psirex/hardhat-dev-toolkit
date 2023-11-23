@@ -87,7 +87,7 @@ export class TxCallTrace {
   public formatOpCode(opCode: TxCallTraceItem, padding?: number) {
     if (opCode.type === "CALL" || opCode.type === "DELEGATECALL" || opCode.type === "STATICCALL")
       return this.formatCallOpCode(opCode, padding);
-    return opCode.type
+    return opCode.type;
   }
 
   private formatCallOpCode(opCode: TxCallTraceCallItem, padding: number = 0) {
@@ -98,7 +98,7 @@ export class TxCallTrace {
       ? this.parseMethodCall(contract, opCode.input, opCode.output)
       : null;
 
-    const contractLabel = methodCallInfo?.contractLabel || "UNVERIFIED";
+    const contractLabel = methodCallInfo?.contractLabel || format.contract("UNVERIFIED", opCode.to);
     const methodName = methodCallInfo?.fragment.name || opCode.input.slice(0, 10);
     const methodArgs =
       methodCallInfo?.fragment.inputs
@@ -110,8 +110,9 @@ export class TxCallTrace {
       paddingLeft +
       opcode +
       " " +
-      format.label(contractLabel + "." + methodName) +
-      `(${methodArgs})` +
+      contractLabel +
+      "." +
+      format.method(methodName, methodArgs) +
       " => " +
       (methodResult.toString() || "void")
     );
@@ -121,7 +122,7 @@ export class TxCallTrace {
     const { fragment } = contract.getFunction(calldata.slice(0, 10));
     return {
       fragment,
-      contractLabel: contracts.label(contract),
+      contractLabel: contracts.label(contract, true),
       args: contract.interface.decodeFunctionData(fragment, calldata),
       result: contract.interface.decodeFunctionResult(fragment, ret),
     };

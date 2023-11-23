@@ -2,11 +2,15 @@ import chalk from "chalk";
 import type { Address, Stringable } from "./types";
 
 function address(address: Address) {
-  return chalk.green.underline.italic(address);
+  return chalk.cyan.underline.italic(address);
 }
 
 function opcode(opcode: string) {
-  return chalk.whiteBright.bold(opcode.toUpperCase());
+  opcode = opcode.toUpperCase();
+  if (opcode === "DELEGATECALL") {
+    opcode = "D·CALL";
+  }
+  return chalk.bold.green(opcode.toUpperCase());
 }
 
 function argument(name: string, value: Stringable) {
@@ -22,9 +26,19 @@ function label(label: string) {
   return chalk.magenta.bold(label);
 }
 
+function method(name: string, args = "") {
+  return chalk.blue.italic(name) + chalk.blue.italic("(") + args + chalk.blue.italic(")");
+}
+
+function contract(name: string, addr: Address) {
+  return `${chalk.magenta.bold(name)}:${address(addr)}`;
+}
+
 export default {
   label,
   opcode,
   address,
+  method,
   argument,
+  contract,
 };
