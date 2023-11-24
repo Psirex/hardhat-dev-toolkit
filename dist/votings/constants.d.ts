@@ -15,7 +15,8 @@ export declare const ADDRESSES: {
         readonly voting: "0x2e59A20f205bB85a89C53f1936454680651E618e";
         readonly kernelProxy: "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc";
         readonly kernelImpl: "0x2b33CF282f867A7FF693A66e11B0FcC5552e4425";
-        readonly lidoLocator: "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb";
+        readonly lidoLocatorProxy: "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb";
+        readonly lidoLocatorImpl: "0x1D920cc5bACf7eE506a271a5259f2417CaDeCE1d";
         readonly tokenManager: "0xf73a1260d222f447210581DDf212D915c09a3249";
         readonly callsScript: "0x5cEb19e1890f677c3676d5ecDF7c501eBA01A054";
         readonly evmScriptRegistryProxy: "0x853cc0D5917f49B57B8e9F89e491F5E18919093A";
@@ -31,7 +32,8 @@ export declare const ADDRESSES: {
         readonly voting: "0xbc0B67b4553f4CF52a913DE9A6eD0057E2E758Db";
         readonly kernelProxy: "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A";
         readonly kernelImpl: "0xcC272fA3bFa4AE2043320e2d56Cf5AE439c62C3d";
-        readonly lidoLocator: "0x1eDf09b5023DC86737b59dE68a8130De878984f5";
+        readonly lidoLocatorProxy: "0x1eDf09b5023DC86737b59dE68a8130De878984f5";
+        readonly lidoLocatorImpl: "0xc04CFDfC71B9c56D684bD8C7c03D8Be23A3087Aa";
         readonly tokenManager: "0xAb304946E8Ed172037aC9aBF9da58a6a7C8d443B";
     };
 };
@@ -73,7 +75,8 @@ export declare function getAddresses(chainId: ChainId): {
     readonly voting: "0x2e59A20f205bB85a89C53f1936454680651E618e";
     readonly kernelProxy: "0xb8FFC3Cd6e7Cf5a098A1c92F48009765B24088Dc";
     readonly kernelImpl: "0x2b33CF282f867A7FF693A66e11B0FcC5552e4425";
-    readonly lidoLocator: "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb";
+    readonly lidoLocatorProxy: "0xC1d0b3DE6792Bf6b4b37EccdcC24e45978Cfd2Eb";
+    readonly lidoLocatorImpl: "0x1D920cc5bACf7eE506a271a5259f2417CaDeCE1d";
     readonly tokenManager: "0xf73a1260d222f447210581DDf212D915c09a3249";
     readonly callsScript: "0x5cEb19e1890f677c3676d5ecDF7c501eBA01A054";
     readonly evmScriptRegistryProxy: "0x853cc0D5917f49B57B8e9F89e491F5E18919093A";
@@ -88,7 +91,8 @@ export declare function getAddresses(chainId: ChainId): {
     readonly voting: "0xbc0B67b4553f4CF52a913DE9A6eD0057E2E758Db";
     readonly kernelProxy: "0x1dD91b354Ebd706aB3Ac7c727455C7BAA164945A";
     readonly kernelImpl: "0xcC272fA3bFa4AE2043320e2d56Cf5AE439c62C3d";
-    readonly lidoLocator: "0x1eDf09b5023DC86737b59dE68a8130De878984f5";
+    readonly lidoLocatorProxy: "0x1eDf09b5023DC86737b59dE68a8130De878984f5";
+    readonly lidoLocatorImpl: "0xc04CFDfC71B9c56D684bD8C7c03D8Be23A3087Aa";
     readonly tokenManager: "0xAb304946E8Ed172037aC9aBF9da58a6a7C8d443B";
 };
 export declare function config(chainId: ChainId): {

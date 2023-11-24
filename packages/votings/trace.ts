@@ -104,13 +104,14 @@ export async function trace(
           address: callsScript.address,
           fragment: callsScript.getFunction("execScript").fragment,
         },
+        // TODO: it will also omit the calls to upgrade/ossify the proxy. Needed fix for it
         {
           type: "CALL",
-          address: addresses.lidoLocator,
+          address: addresses.lidoLocatorProxy,
         },
         {
           type: "DELEGATECALL",
-          address: addresses.lidoLocator,
+          address: addresses.lidoLocatorImpl,
         },
       ])
     )
