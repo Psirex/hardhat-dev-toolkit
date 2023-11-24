@@ -221,7 +221,7 @@ function spawnGanacheProcess(options: GanacheNodeOptions) {
 
 async function spawnNode(name: "anvil", options?: AnvilNodeOptions): Promise<SpawnedRpcNode>;
 async function spawnNode(name: "hardhat", options?: HardhatNodeOptions): Promise<SpawnedRpcNode>;
-async function spawnNode(name: "ganache", options?: AnvilNodeOptions): Promise<SpawnedRpcNode>;
+async function spawnNode(name: "ganache", options?: GanacheNodeOptions): Promise<SpawnedRpcNode>;
 async function spawnNode(
   name: RpcNodeName,
   options: AnvilNodeOptions | HardhatNodeOptions | GanacheNodeOptions = {}

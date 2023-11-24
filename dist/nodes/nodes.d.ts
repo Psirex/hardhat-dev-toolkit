@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { JsonRpcProvider } from "ethers";
 import { ChildProcessWithoutNullStreams } from "node:child_process";
+type Hardfork = "constantinople" | "byzantium" | "petersburg" | "istanbul" | "muirGlacier" | "berlin" | "london" | "arrowGlazier" | "grayGlacier" | "merge" | "shanghai";
 type HardhatNodeOptions = Partial<{
     port: number;
     fork: string;
@@ -49,6 +50,75 @@ type AnvilNodeOptions = Partial<{
     autoImpersonate: boolean;
     stepsTracing: boolean;
 }>;
+type GanacheNodeOptions = Partial<{
+    chain: Partial<{
+        allowUnlimitedContractSize: boolean;
+        allowUnlimitedInitCodeSize: boolean;
+        asyncRequestProcessing: boolean;
+        chainId: number;
+        networkId: number;
+        time: string;
+        hardfork: Hardfork;
+        vmErrorsOnRPCResponse: boolean;
+    }>;
+    database: Partial<{
+        dbPath: string;
+    }>;
+    logging: Partial<{
+        debug: boolean;
+        quiet: boolean;
+        verbose: boolean;
+        file: boolean;
+    }>;
+    miner: Partial<{
+        blockTime: number;
+        timestampIncrement: string;
+        defaultGasPrice: string;
+        blockGasLimit: string;
+        difficulty: string;
+        callGasLimit: string;
+        instamine: "eager" | "strict";
+        coinbase: string;
+        extraData: string;
+        priceBump: string;
+    }>;
+    wallet: Partial<{
+        accounts: string[];
+        totalAccounts: number;
+        determenistic: boolean;
+        seed: string;
+        mnemonic: string;
+        unlockedAccounts: string[];
+        lock: boolean;
+        passphrase: string;
+        accountKeysPath: string;
+        defaultBalance: number;
+        hdPath: string;
+    }>;
+    fork: Partial<{
+        url: string;
+        network: "mainnet" | "goerli" | "görli" | "sepolia";
+        blockNumber: number;
+        preLatestConfirmation: number;
+        username: string;
+        password: string;
+        jwt: string;
+        userAgent: string;
+        origin: string;
+        headers: string[];
+        requestsPerSecond: number;
+        disableCache: boolean;
+        deleteCache: boolean;
+    }>;
+    server: Partial<{
+        ws: boolean;
+        wsBinary: "true" | "false" | "auto" | boolean;
+        rpcEndpoint: string;
+        chunkSize: number;
+        host: string;
+        port: number;
+    }>;
+}>;
 interface SpawnedRpcNode {
     url: string;
     host: string;
@@ -63,7 +133,7 @@ declare function setLogsDir(path: string): void;
 declare function getLogsDir(): string;
 declare function spawnNode(name: "anvil", options?: AnvilNodeOptions): Promise<SpawnedRpcNode>;
 declare function spawnNode(name: "hardhat", options?: HardhatNodeOptions): Promise<SpawnedRpcNode>;
-declare function spawnNode(name: "ganache", options?: AnvilNodeOptions): Promise<SpawnedRpcNode>;
+declare function spawnNode(name: "ganache", options?: GanacheNodeOptions): Promise<SpawnedRpcNode>;
 declare const _default: {
     spawn: typeof spawnNode;
     setLogsDir: typeof setLogsDir;
