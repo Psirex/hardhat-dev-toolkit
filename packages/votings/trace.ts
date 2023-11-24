@@ -1,6 +1,6 @@
 import { ContractTransactionReceipt, FunctionFragment } from "ethers";
 import { TxCallTraceItem } from "../traces/tx-call-trace";
-import { config } from "./constants";
+import { config, getAddresses } from "./constants";
 import providers from "../providers";
 import traces from "../traces";
 import bytes from "../common/bytes";
@@ -29,6 +29,7 @@ export async function trace(
     evmScriptRegistry,
     implementations: { kernel: kernelImpl, acl: aclImpl, evmScriptRegistry: evmScriptRegistryImpl },
   } = contracts.create(config(chainId), provider);
+  const addresses = getAddresses(chainId);
 
   const trace = await traces.trace(enactReceipt);
 
@@ -102,6 +103,14 @@ export async function trace(
           type: "DELEGATECALL",
           address: callsScript.address,
           fragment: callsScript.getFunction("execScript").fragment,
+        },
+        {
+          type: "CALL",
+          address: addresses.lidoLocator,
+        },
+        {
+          type: "DELEGATECALL",
+          address: addresses.lidoLocator,
         },
       ])
     )

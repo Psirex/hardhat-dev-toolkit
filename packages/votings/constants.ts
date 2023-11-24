@@ -311,7 +311,7 @@ const TokenManagerFactory = new Contract__factory<TokenManager>([
   },
 ]);
 
-function getAddresses(chainId: ChainId) {
+export function getAddresses(chainId: ChainId) {
   const chainIdString = chainId.toString();
   if (chainIdString !== "1" && chainIdString !== "5") {
     throw new Error("Unsupported");
