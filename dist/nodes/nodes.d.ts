@@ -1,14 +1,15 @@
 /// <reference types="node" />
 import { JsonRpcProvider } from "ethers";
 import { ChildProcessWithoutNullStreams } from "node:child_process";
-type Hardfork = "constantinople" | "byzantium" | "petersburg" | "istanbul" | "muirGlacier" | "berlin" | "london" | "arrowGlazier" | "grayGlacier" | "merge" | "shanghai";
-type HardhatNodeOptions = Partial<{
+export type Hardfork = "constantinople" | "byzantium" | "petersburg" | "istanbul" | "muirGlacier" | "berlin" | "london" | "arrowGlazier" | "grayGlacier" | "merge" | "shanghai";
+export type RpcNodeName = "hardhat" | "anvil" | "ganache";
+export type HardhatNodeOptions = Partial<{
     port: number;
     fork: string;
     forkBlockNumber: number;
     hostname: string;
 }>;
-type AnvilNodeOptions = Partial<{
+export type AnvilNodeOptions = Partial<{
     accounts: number;
     blockTime: number;
     balance: number;
@@ -50,7 +51,7 @@ type AnvilNodeOptions = Partial<{
     autoImpersonate: boolean;
     stepsTracing: boolean;
 }>;
-type GanacheNodeOptions = Partial<{
+export type GanacheNodeOptions = Partial<{
     chain: Partial<{
         allowUnlimitedContractSize: boolean;
         allowUnlimitedInitCodeSize: boolean;
@@ -119,7 +120,7 @@ type GanacheNodeOptions = Partial<{
         port: number;
     }>;
 }>;
-interface SpawnedRpcNode {
+export interface SpawnedRpcNode {
     url: string;
     host: string;
     port: number;
