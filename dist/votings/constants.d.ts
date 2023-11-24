@@ -62,6 +62,7 @@ type VotingContract = BaseContract & {
     ], "nonpayable">;
     executeVote: TypedContractMethod<[_voteId: BigNumberish], [void], "nonpayable">;
 };
+export declare const VotingFactory: Contract__factory<VotingContract>;
 type TokenManager = BaseContract & {
     forward: TypedContractMethod<[_evmScript: BytesLike], [void], "nonpayable">;
 };

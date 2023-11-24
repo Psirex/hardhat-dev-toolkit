@@ -13,10 +13,10 @@ function opcode(opcode: string) {
   return chalk.bold.green(opcode.toUpperCase());
 }
 
-function argument(name: string, value: Stringable) {
+function argument(name: string, value: Stringable, detailed = false) {
   const valueString = value.toString();
   const formattedValueString =
-    valueString.length > 2 + 32 * 2
+    valueString.length > 2 + 32 * 2 && !detailed
       ? valueString.slice(0, 32) + ".." + valueString.slice(-32)
       : valueString;
   return chalk.yellow(name) + "=" + formattedValueString.toString();
@@ -26,8 +26,10 @@ function label(label: string) {
   return chalk.magenta.bold(label);
 }
 
-function method(name: string, args = "") {
-  return chalk.blue.italic(name) + chalk.blue.italic("(") + args + chalk.blue.italic(")");
+function method(name: string, args = "", padding = "") {
+  return (
+    chalk.blue.italic(name) + chalk.blue.italic("(\n") + args + chalk.blue.italic(`\n${padding})`)
+  );
 }
 
 function contract(name: string, addr: Address) {

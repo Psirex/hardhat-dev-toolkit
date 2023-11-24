@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWhale = exports.config = exports.LDO_WHALES = exports.ADDRESSES = exports.DEFAULT_GAS_LIMIT = exports.VOTE_DURATION = exports.CREATOR_LDO_BALANCE = exports.CREATOR_ETH_BALANCE = exports.CREATOR = void 0;
+exports.getWhale = exports.config = exports.VotingFactory = exports.LDO_WHALES = exports.ADDRESSES = exports.DEFAULT_GAS_LIMIT = exports.VOTE_DURATION = exports.CREATOR_LDO_BALANCE = exports.CREATOR_ETH_BALANCE = exports.CREATOR = void 0;
 const named_contract_1 = require("../contracts/named-contract");
 exports.CREATOR = "0x1D0f1d0f1d0F1d0F1d0F1d0F1d0f1D0f1D0F1d0F";
 exports.CREATOR_ETH_BALANCE = 10n * 10n ** 18n; // 10 ETH
@@ -157,7 +157,7 @@ const KernelFactory = new named_contract_1.Contract__factory([
         type: "function",
     },
 ]);
-const VotingFactory = new named_contract_1.Contract__factory([
+exports.VotingFactory = new named_contract_1.Contract__factory([
     {
         constant: false,
         inputs: [{ name: "_voteId", type: "uint256" }],
@@ -307,7 +307,7 @@ function config(chainId) {
         voting: {
             impl: {
                 address: addresses.voting,
-                factory: VotingFactory,
+                factory: exports.VotingFactory,
             },
             proxy: null,
         },

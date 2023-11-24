@@ -21,8 +21,8 @@ declare const _default: {
         label: (label: string) => string;
         opcode: (opcode: string) => string;
         address: (address: `0x${string}`) => string;
-        method: (name: string, args?: string) => string;
-        argument: (name: string, value: import("./types").Stringable) => string;
+        method: (name: string, args?: string, padding?: string) => string;
+        argument: (name: string, value: import("./types").Stringable, detailed?: boolean) => string;
         contract: (name: string, addr: `0x${string}`) => string;
     };
     prompt: {

@@ -98,12 +98,13 @@ export class TxCallTrace {
       ? this.parseMethodCall(contract, opCode.input, opCode.output)
       : null;
 
-    const contractLabel = methodCallInfo?.contractLabel || format.contract("UNVERIFIED", opCode.to);
+    const contractLabel = methodCallInfo?.contractLabel || format.contract("UNKNOWN", opCode.to);
     const methodName = methodCallInfo?.fragment.name || opCode.input.slice(0, 10);
     const methodArgs =
       methodCallInfo?.fragment.inputs
-        .map((input, i) => format.argument(input.name, methodCallInfo.args[i]))
-        .join(", ") || "0x" + opCode.input.slice(10);
+        .map((input, i) => "  " + paddingLeft + format.argument(input.name, methodCallInfo.args[i]))
+        .join(",\n") ||
+      "  " + paddingLeft + format.argument("data", "0x" + opCode.input.slice(10), true);
     const methodResult = methodCallInfo?.result || opCode.output;
 
     return (
@@ -112,7 +113,7 @@ export class TxCallTrace {
       " " +
       contractLabel +
       "." +
-      format.method(methodName, methodArgs) +
+      format.method(methodName, methodArgs, paddingLeft) +
       " => " +
       (methodResult.toString() || "void")
     );

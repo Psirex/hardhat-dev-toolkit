@@ -48,7 +48,7 @@ class EtherscanContractDataResolver {
             if (response.result === "Contract source code not verified") {
                 return undefined;
             }
-            throw new Error(`Unexpected response status ${response.status}`);
+            throw new Error(`Etherscan request failed: ${response}`);
         }
         if (response.status === "1" && Array.isArray(response.result)) {
             return response.result[0];

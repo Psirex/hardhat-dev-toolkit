@@ -42,18 +42,19 @@ class TxCallTrace {
         const methodCallInfo = contract
             ? this.parseMethodCall(contract, opCode.input, opCode.output)
             : null;
-        const contractLabel = methodCallInfo?.contractLabel || format_1.default.contract("UNVERIFIED", opCode.to);
+        const contractLabel = methodCallInfo?.contractLabel || format_1.default.contract("UNKNOWN", opCode.to);
         const methodName = methodCallInfo?.fragment.name || opCode.input.slice(0, 10);
         const methodArgs = methodCallInfo?.fragment.inputs
-            .map((input, i) => format_1.default.argument(input.name, methodCallInfo.args[i]))
-            .join(", ") || "0x" + opCode.input.slice(10);
+            .map((input, i) => "  " + paddingLeft + format_1.default.argument(input.name, methodCallInfo.args[i]))
+            .join(",\n") ||
+            "  " + paddingLeft + format_1.default.argument("data", "0x" + opCode.input.slice(10), true);
         const methodResult = methodCallInfo?.result || opCode.output;
         return (paddingLeft +
             opcode +
             " " +
             contractLabel +
             "." +
-            format_1.default.method(methodName, methodArgs) +
+            format_1.default.method(methodName, methodArgs, paddingLeft) +
             " => " +
             (methodResult.toString() || "void"));
     }

@@ -193,7 +193,7 @@ type VotingContract = BaseContract & {
   executeVote: TypedContractMethod<[_voteId: BigNumberish], [void], "nonpayable">;
 };
 
-const VotingFactory = new Contract__factory<VotingContract>([
+export const VotingFactory = new Contract__factory<VotingContract>([
   {
     constant: false,
     inputs: [{ name: "_voteId", type: "uint256" }],

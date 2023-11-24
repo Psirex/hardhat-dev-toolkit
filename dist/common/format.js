@@ -14,9 +14,9 @@ function opcode(opcode) {
     }
     return chalk_1.default.bold.green(opcode.toUpperCase());
 }
-function argument(name, value) {
+function argument(name, value, detailed = false) {
     const valueString = value.toString();
-    const formattedValueString = valueString.length > 2 + 32 * 2
+    const formattedValueString = valueString.length > 2 + 32 * 2 && !detailed
         ? valueString.slice(0, 32) + ".." + valueString.slice(-32)
         : valueString;
     return chalk_1.default.yellow(name) + "=" + formattedValueString.toString();
@@ -24,8 +24,8 @@ function argument(name, value) {
 function label(label) {
     return chalk_1.default.magenta.bold(label);
 }
-function method(name, args = "") {
-    return chalk_1.default.blue.italic(name) + chalk_1.default.blue.italic("(") + args + chalk_1.default.blue.italic(")");
+function method(name, args = "", padding = "") {
+    return (chalk_1.default.blue.italic(name) + chalk_1.default.blue.italic("(\n") + args + chalk_1.default.blue.italic(`\n${padding})`));
 }
 function contract(name, addr) {
     return (chalk_1.default.magenta.bold(name) + chalk_1.default.magenta.bold("[") + address(addr) + chalk_1.default.magenta.bold("]"));
