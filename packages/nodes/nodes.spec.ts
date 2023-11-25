@@ -40,6 +40,7 @@ describe("RPC node spawning", () => {
       autoImpersonate: true,
       port: 8546,
       chainId: 1,
+      forkBlockNumber: undefined,
     });
     assert.equal(port, 8546);
     await stop();

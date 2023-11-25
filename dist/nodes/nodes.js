@@ -34,7 +34,7 @@ function spawnHardhatProcess(options) {
 }
 function spawnAnvilProcess(options) {
     const flags = (0, lodash_1.flatten)(Object.entries(options)
-        .filter(([, value]) => value !== undefined || value !== false)
+        .filter(([, value]) => value !== undefined && value !== false)
         .map(([key, value]) => {
         const kebabKey = "--" + (0, lodash_1.kebabCase)(key);
         return typeof value === "boolean" ? [kebabKey] : [kebabKey, value.toString()];

@@ -193,7 +193,7 @@ function spawnHardhatProcess(options: HardhatNodeOptions): ChildProcessWithoutNu
 function spawnAnvilProcess(options: AnvilNodeOptions) {
   const flags = flatten(
     Object.entries(options)
-      .filter(([, value]) => value !== undefined || value !== false)
+      .filter(([, value]) => value !== undefined && value !== false)
       .map(([key, value]) => {
         const kebabKey = "--" + kebabCase(key);
         return typeof value === "boolean" ? [kebabKey] : [kebabKey, value.toString()];

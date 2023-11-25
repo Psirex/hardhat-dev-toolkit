@@ -40,6 +40,7 @@ const cheats_1 = require("../providers/cheats");
             autoImpersonate: true,
             port: 8546,
             chainId: 1,
+            forkBlockNumber: undefined,
         });
         node_assert_1.default.equal(port, 8546);
         await stop();
