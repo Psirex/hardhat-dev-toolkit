@@ -62,7 +62,7 @@ async function sendMine(
     case "anvil":
       return provider.send("anvil_mine", [blocks]);
     case "hardhat":
-      return provider.send("hardhat_mine", [blocks]);
+      return provider.send("hardhat_mine", ["0x" + blocks.toString(16)]);
     case "ganache":
       return provider.send("evm_mine", [{ blocks }]);
   }
