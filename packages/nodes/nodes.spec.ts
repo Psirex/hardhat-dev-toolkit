@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import test, { it, describe } from "node:test";
+import { it, describe } from "node:test";
 
 import node from "./nodes";
 import { cheats } from "../providers/cheats";
@@ -34,13 +34,23 @@ describe("RPC node spawning", () => {
     assert.equal(url, `http://${node.DEFAULT_HOST}:${node.DEFAULT_PORT}`);
     await stop();
   });
-});
 
-test("spawn ganache node with custom options", async () => {
-  const { port, stop } = await node.spawn("ganache", {
-    chain: { chainId: 1 },
-    server: { port: 8546 },
+  it("spawn anvil node with custom options", async () => {
+    const { port, stop } = await node.spawn("anvil", {
+      autoImpersonate: true,
+      port: 8546,
+      chainId: 1,
+    });
+    assert.equal(port, 8546);
+    await stop();
   });
-  assert.equal(port, 8546);
-  await stop();
+
+  it("spawn ganache node with custom options", async () => {
+    const { port, stop } = await node.spawn("ganache", {
+      chain: { chainId: 1, hardfork: undefined },
+      server: { port: 8546 },
+    });
+    assert.equal(port, 8546);
+    await stop();
+  });
 });

@@ -23,7 +23,9 @@ function getLogsDir() {
     return config.logsDir;
 }
 function spawnHardhatProcess(options) {
-    const flags = (0, lodash_1.mapValues)((0, lodash_1.mapKeys)((0, lodash_1.omitBy)(options, (value) => value === undefined), (_, key) => "--" + (0, lodash_1.snakeCase)(key.toString())), (value) => value.toString());
+    const flags = (0, lodash_1.flatten)(Object.entries(options)
+        .filter(([, value]) => value !== undefined)
+        .map(([key, value]) => ["--" + (0, lodash_1.kebabCase)(key), value.toString()]));
     return spawnProcess({
         command: "npx",
         args: ["hardhat", "node"],
@@ -31,17 +33,22 @@ function spawnHardhatProcess(options) {
     });
 }
 function spawnAnvilProcess(options) {
-    const flags = (0, lodash_1.mapValues)((0, lodash_1.mapKeys)((0, lodash_1.omitBy)(options, (value) => value === false || value === undefined), (_, key) => "--" + (0, lodash_1.snakeCase)(key.toString())), (value) => (typeof value === "boolean" ? "" : value.toString()));
+    const flags = (0, lodash_1.flatten)(Object.entries(options)
+        .filter(([, value]) => value !== undefined || value !== false)
+        .map(([key, value]) => {
+        const kebabKey = "--" + (0, lodash_1.kebabCase)(key);
+        return typeof value === "boolean" ? [kebabKey] : [kebabKey, value.toString()];
+    }));
     return spawnProcess({ command: "anvil", flags });
 }
 function spawnGanacheProcess(options) {
     const prefixFlag = (prefix, flag) => `--${prefix}.${flag}`;
-    const flags = {};
+    const flags = [];
     for (const [namespace, namespaceFlags] of Object.entries(options)) {
         for (const [flag, value] of Object.entries(namespaceFlags) || {}) {
-            if (value === false)
+            if (value === undefined)
                 continue;
-            flags[prefixFlag(namespace, flag)] = value;
+            flags.push(prefixFlag(namespace, flag), value.toString());
         }
     }
     return spawnProcess({ command: "npx", args: ["ganache-cli"], flags });
@@ -116,8 +123,7 @@ async function spawnNode(name, options = {}) {
 }
 function spawnProcess(options) {
     const args = options.args || [];
-    const flags = Object.entries(options.flags || {}).reduce((res, pair) => [...res, ...pair], []);
-    const spawnedProcess = (0, node_child_process_1.spawn)(options.command, [...args, ...flags]);
+    const spawnedProcess = (0, node_child_process_1.spawn)(options.command, [...args, ...(options.flags || [])]);
     if (options.listeners?.data) {
         spawnedProcess.stdout.on("data", options.listeners.data);
     }

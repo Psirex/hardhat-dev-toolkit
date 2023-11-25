@@ -2,7 +2,7 @@ import { JsonRpcProvider } from "ethers";
 import { spawn, ChildProcessWithoutNullStreams } from "node:child_process";
 import { createWriteStream } from "node:fs";
 import path from "node:path";
-import { mapKeys, mapValues, omitBy, snakeCase } from "lodash";
+import { flatten, kebabCase } from "lodash";
 import { Stringable } from "../common";
 import files from "../common/files";
 import treeKill from "tree-kill";
@@ -154,7 +154,7 @@ export interface SpawnedRpcNode {
 interface SpawnProcessOptions {
   command: string;
   args?: string[];
-  flags?: Record<string | number, string>;
+  flags?: string[];
   listeners?: {
     data?: (listener: (chunk: any) => void) => void;
     error?: (listener: (chunk: any) => void) => void;
@@ -177,12 +177,10 @@ function getLogsDir() {
 }
 
 function spawnHardhatProcess(options: HardhatNodeOptions): ChildProcessWithoutNullStreams {
-  const flags = mapValues(
-    mapKeys(
-      omitBy(options, (value): value is string | number => value === undefined),
-      (_, key) => "--" + snakeCase(key.toString())
-    ),
-    (value) => value.toString()
+  const flags = flatten(
+    Object.entries(options)
+      .filter(([, value]) => value !== undefined)
+      .map(([key, value]) => ["--" + kebabCase(key), value.toString()])
   );
 
   return spawnProcess({
@@ -193,29 +191,28 @@ function spawnHardhatProcess(options: HardhatNodeOptions): ChildProcessWithoutNu
 }
 
 function spawnAnvilProcess(options: AnvilNodeOptions) {
-  const flags = mapValues(
-    mapKeys(
-      omitBy(
-        options,
-        (value): value is string | number | bigint | boolean =>
-          value === false || value === undefined
-      ),
-      (_, key) => "--" + snakeCase(key.toString())
-    ),
-    (value) => (typeof value === "boolean" ? "" : value.toString())
+  const flags = flatten(
+    Object.entries(options)
+      .filter(([, value]) => value !== undefined || value !== false)
+      .map(([key, value]) => {
+        const kebabKey = "--" + kebabCase(key);
+        return typeof value === "boolean" ? [kebabKey] : [kebabKey, value.toString()];
+      })
   );
+
   return spawnProcess({ command: "anvil", flags });
 }
 
 function spawnGanacheProcess(options: GanacheNodeOptions) {
   const prefixFlag = (prefix: string, flag: string) => `--${prefix}.${flag}`;
-  const flags: Record<string, any> = {};
+  const flags: string[] = [];
   for (const [namespace, namespaceFlags] of Object.entries(options)) {
     for (const [flag, value] of Object.entries(namespaceFlags) || {}) {
-      if (value === false) continue;
-      flags[prefixFlag(namespace, flag)] = value;
+      if (value === undefined) continue;
+      flags.push(prefixFlag(namespace, flag), value.toString());
     }
   }
+
   return spawnProcess({ command: "npx", args: ["ganache-cli"], flags });
 }
 
@@ -302,11 +299,7 @@ async function spawnNode(
 
 function spawnProcess(options: SpawnProcessOptions): ChildProcessWithoutNullStreams {
   const args = options.args || [];
-  const flags = Object.entries(options.flags || {}).reduce<string[]>(
-    (res, pair) => [...res, ...pair],
-    []
-  );
-  const spawnedProcess = spawn(options.command, [...args, ...flags]);
+  const spawnedProcess = spawn(options.command, [...args, ...(options.flags || [])]);
   if (options.listeners?.data) {
     spawnedProcess.stdout.on("data", options.listeners.data);
   }
